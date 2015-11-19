@@ -6,7 +6,7 @@
 ;; Version: 0.1
 ;; Keywords: comms
 ;; URL: https://github.com/hagleitn/stock-ticker
-;; Package-Requires: ((s "1.9.0") (request "0.2.0"))
+;; Package-Requires: ((s "1.9.0") (request "0.2.0") (cl-lib "0.5"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 (require 'request)
 (require 's)
 (require 'timer)
+(require 'cl-lib)
 
 (defun stock-ticker--query (symbols)
   "Generate yql query string from list of SYMBOLS."
@@ -101,7 +102,7 @@
              (env . "http://datatables.org/alltables.env")
              (format . "json"))
    :parser 'json-read
-   :success (function*
+   :success (cl-function
              (lambda (&key data &allow-other-keys)
                (when data
                  (progn (setq stock-ticker--current-stocks
